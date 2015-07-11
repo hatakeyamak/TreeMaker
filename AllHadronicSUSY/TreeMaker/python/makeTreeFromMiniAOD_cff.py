@@ -11,7 +11,7 @@ testFileName="",
 Global_Tag="",
 numProcessedEvt=1000,
 lostlepton=False,
-tauhad=False,
+hadtau=False,
 tagandprobe=False,
 applybaseline=False,
 doZinv=False,
@@ -21,7 +21,7 @@ debugtracks=False,
     process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
     process.GlobalTag.globaltag = Global_Tag
     
-    if tauhad:
+    if hadtau:
         process.load("PhysicsTools.PatAlgos.producersLayer1.patCandidates_cff")   
         process.load("Configuration.EventContent.EventContent_cff")   
         process.load('Configuration.StandardSequences.Geometry_cff')   
@@ -85,7 +85,7 @@ debugtracks=False,
     )
 
     # configure treemaker
-    if tauhad: 
+    if hadtau: 
         from AllHadronicSUSY.TreeMaker.hadtau_treeMaker import HadTau_TreeMaker
         process.TreeMaker2 = HadTau_TreeMaker.clone(
             TreeName          = cms.string("PreSelection"),
@@ -412,7 +412,7 @@ debugtracks=False,
     #########
     # had tau
     #########
-    if tauhad:
+    if hadtau:
         process.load("RecoJets.JetProducers.ak4PFJets_cfi")
         process.load("RecoJets.JetProducers.ak4GenJets_cfi")
         from JetMETCorrections.Configuration.JetCorrectionServices_cff import *
@@ -1082,7 +1082,7 @@ debugtracks=False,
       RecoCandVector.extend(['slimmedElectrons','slimmedMuons'])
       RecoCandVector.extend(['SelectedPFElecCandidates','SelectedPFMuCandidates','SelectedPFPionCandidates'])
 
-    if tauhad: 
+    if hadtau: 
         process.AdditionalSequence += process.JetsForHadTau
         RecoCandVector.extend(['JetsForHadTau:Jet(slimJet)|JetsForHadTau:JetFlag(I_slimJetID)'])
         RecoCandVector.extend(['GenLeptons:TauNu(GenTauNu)|GenLeptons:TauNuMomPt(F_TauNuMomPt)'] )
