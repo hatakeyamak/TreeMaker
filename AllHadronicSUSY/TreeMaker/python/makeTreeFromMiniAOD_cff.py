@@ -85,18 +85,33 @@ debugtracks=False,
     )
 
     # configure treemaker
-    from AllHadronicSUSY.TreeMaker.treeMaker import TreeMaker
-    process.TreeMaker2 = TreeMaker.clone(
-    	TreeName          = cms.string("PreSelection"),
-    	VarsRecoCand = RecoCandVector, 
-    	VarsDouble  	  = VarsDouble,
-    	VarsInt = VarsInt,
-    	VarsBool = VarsBool,
-        VectorTLorentzVector = VectorTLorentzVector,
-        VectorDouble = VectorDouble,
-        VectorInt = VectorInt,
-        VectorString = VectorString,
-    	)
+    if tauhad: 
+        from AllHadronicSUSY.TreeMaker.hadtau_treeMaker import HadTau_TreeMaker
+        process.TreeMaker2 = HadTau_TreeMaker.clone(
+            TreeName          = cms.string("PreSelection"),
+            VarsRecoCand = RecoCandVector,
+            VarsDouble        = VarsDouble,
+            VarsInt = VarsInt,
+            VarsBool = VarsBool,
+            VectorTLorentzVector = VectorTLorentzVector,
+            VectorDouble = VectorDouble,
+            VectorInt = VectorInt,
+            VectorString = VectorString,
+            )
+   
+    else:
+        from AllHadronicSUSY.TreeMaker.treeMaker import TreeMaker
+        process.TreeMaker2 = TreeMaker.clone(
+            TreeName          = cms.string("PreSelection"),
+            VarsRecoCand = RecoCandVector, 
+            VarsDouble  	  = VarsDouble,
+            VarsInt = VarsInt,
+            VarsBool = VarsBool,
+            VectorTLorentzVector = VectorTLorentzVector,
+            VectorDouble = VectorDouble,
+            VectorInt = VectorInt,
+            VectorString = VectorString,
+            )
 
     # basic producers
     ## --- Setup WeightProducer -------------------------------------------
