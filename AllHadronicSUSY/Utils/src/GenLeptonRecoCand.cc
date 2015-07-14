@@ -32,6 +32,8 @@
 #include "DataFormats/JetReco/interface/Jet.h"
 #include "DataFormats/PatCandidates/interface/MET.h"
 
+#include <TVector3.h>
+
 //
 // class declaration
 //
@@ -210,9 +212,41 @@ GenLeptonRecoCand::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
             TauNuMomPt->push_back((*pruned)[i].mother()->pt());
             selectedTauNu->push_back(  (reco::GenParticle) (*pruned)[i] );
           }
-
-
+	  
 	}
+
+	//KH--starts
+	TVector3 TauNu3Vec,Tau3Vec,Visible3Vec;
+	std::cout << selectedTau->size() << std::endl;
+	if (selectedTau->size()==1){
+	  std::cout << selectedTau->at(0).pt() << std::endl;
+	  for(size_t ii=0; ii < TauNuMomPt->size(); ii++){
+	    //KH if(evt->TauNuMomPt()[i]==genTauPt){                                              
+	    if(fabs(TauNuMomPt->at(ii) - selectedTau->at(0).pt())<0.01*selectedTau->at(0).pt() ){
+	      TauNu3Vec.SetPtEtaPhi(selectedTauNu->at(ii).pt(),selectedTauNu->at(ii).eta(),selectedTauNu->at(ii).phi());
+	    }
+	  }
+	  if (TauNu3Vec.Pt()==0.){
+	    printf("genTauPt,Eta,Phi = %8.1f,%8.2f,%8.2f\n",selectedTau->at(0).pt(),selectedTau->at(0).eta(),selectedTau->at(0).phi());
+	    for(size_t ii=0; ii < TauNuMomPt->size(); ii++){
+	      printf(" TauNuMomPt,GenTauNuPt,Eta,Phi = %8.1f, %8.1f, %8.2f, %8.2f\n",
+		     TauNuMomPt->at(ii),
+		     selectedTauNu->at(ii).pt(),selectedTauNu->at(ii).eta(),selectedTauNu->at(ii).phi());
+	    }
+	    for(size_t ii=0; ii<pruned->size();ii++){
+	      if (ii==0) printf("all pruned pdgid(status,pt) ");
+	      printf("%6d(%6d,%8.2f)",(*pruned)[ii].pdgId(),(*pruned)[ii].status(),(*pruned)[ii].pt());
+	    }
+	    printf("\n");
+	    for(size_t ii=0; ii < selectedTauDecayCands->size(); ii++){
+	      if (ii==0) printf("selected cands pdgid(pt) ");
+	      printf("%6d(%8.2f)",selectedTauDecayCandspdgID->at(ii),selectedTauDecayCands->at(ii).pt());
+	    }
+	    printf("\n");
+	  } // TauNu3Vec.Pt==0
+	} // selectedTau->size()==1 
+	//KH--ends
+
 	const std::string string1("Boson");
 	const std::string string1t("BosonPDGId");
 	const std::string string2("Muon");
@@ -237,7 +271,7 @@ GenLeptonRecoCand::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 	iEvent.put(selectedTauDecayCandspdgID,string4tt2);
         iEvent.put(selectedTauNu,string5);
         iEvent.put(TauNuMomPt,string6);
-	
+	  
 }
 
 // ------------ method called once each job just before starting event loop  ------------
