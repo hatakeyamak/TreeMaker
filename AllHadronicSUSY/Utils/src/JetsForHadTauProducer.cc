@@ -68,6 +68,7 @@ private:
         double jetPtCut_miniAOD_, genMatch_dR_;
         double relPt_for_xCheck_, dR_for_xCheck_;
         bool debug_;	
+        bool MCflag_;
 	// ----------member data ---------------------------
 };
 
@@ -105,6 +106,7 @@ JetsForHadTauProducer::JetsForHadTauProducer(const edm::ParameterSet& iConfig)
         genMatch_dR_ = iConfig.getParameter<double>("genMatch_dR");
         dR_for_xCheck_ = iConfig.getParameter<double>("dR_for_xCheck");
         relPt_for_xCheck_ = iConfig.getParameter<double>("relPt_for_xCheck");
+        MCflag_ = iConfig.getParameter<bool>("MCflag");
         debug_ = iConfig.getParameter<bool>("debug");
         
 	produces<std::vector<Jet> >();	
@@ -140,7 +142,7 @@ JetsForHadTauProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
 
   iEvent.getByLabel(JetTag_,Jets);
   iEvent.getByLabel(reclusJetTag_,reclusJets);
-  iEvent.getByLabel("prunedGenParticles",pruned);
+  if (MCflag_) iEvent.getByLabel("prunedGenParticles",pruned);
   iEvent.getByLabel("slimmedMuons", muon);
   iEvent.getByLabel("slimmedElectrons", electron);
 
@@ -190,6 +192,7 @@ JetsForHadTauProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
 	     //
 	     // Check gen leptons
 	     //
+	     if (MCflag_){
 	     if (pruned.isValid()) { // this matching check is done only if pruned particle collection exists
              for(unsigned int ig=0; ig<pruned->size(); ig++){
                // Only keep the jet if it matches one of the gen or reco leptons // this is to save disk space
@@ -214,7 +217,8 @@ JetsForHadTauProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
                   }
                 }
              }
-	     }
+	     } // pruned.isValid()
+	     } // MC flag
 	     //
 	     // Check reco muons
 	     //
