@@ -1256,6 +1256,8 @@ jsonfile=""
 
     ### end Zinv stuff ###
 
+    process.SimpleMemoryCheck = cms.Service("SimpleMemoryCheck",ignoreTotal = cms.untracked.int32(1) )     
+
     process.WriteTree = cms.Path(
         process.Baseline *
         process.AdditionalSequence *

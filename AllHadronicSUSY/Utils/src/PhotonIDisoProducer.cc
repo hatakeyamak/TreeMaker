@@ -277,6 +277,8 @@ PhotonIDisoProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   iEvent.put(photon_pfGammaIsoRhoCorr , "pfGammaIsoRhoCorr" );
   iEvent.put(photon_hasPixelSeed , "hasPixelSeed" );
   iEvent.put(photon_passElectronVeto , "passElectronVeto" );
+
+  delete clusterTools_;
  
 }
 
