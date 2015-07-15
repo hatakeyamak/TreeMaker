@@ -1077,8 +1077,8 @@ jsonfile=""
     #define sequences
     
     #baseline RA2/b variables default shared variables
-    if geninfo :
-        RecoCandVector.extend(['LeptonsNew:IdIsoMuon(Muons)','LeptonsNew:IdIsoElectron(Electrons)'])
+    #if geninfo :
+    RecoCandVector.extend(['LeptonsNew:IdIsoMuon(Muons)','LeptonsNew:IdIsoElectron(Electrons)'])
 
     ## --- Final paths ----------------------------------------------------
 

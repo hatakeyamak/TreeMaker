@@ -261,6 +261,8 @@ JetsForHadTauProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
   const std::string string1("Jet");
   iEvent.put(prodJetsFlag,string1t);
   iEvent.put(prodJets,string1);
+
+  finalJets.clear(); 
   
 }
 
