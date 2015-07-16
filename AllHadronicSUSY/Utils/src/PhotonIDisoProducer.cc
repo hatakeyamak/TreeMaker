@@ -277,11 +277,7 @@ PhotonIDisoProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
   iEvent.put(photon_pfGammaIsoRhoCorr , "pfGammaIsoRhoCorr" );
   iEvent.put(photon_hasPixelSeed , "hasPixelSeed" );
   iEvent.put(photon_passElectronVeto , "passElectronVeto" );
-
-  delete clusterTools_;
  
-  delete clusterTools_;
-
 }
 
 // copied from https://github.com/RazorCMS/SUSYBSMAnalysis-RazorTuplizer/blob/6072ffb43bbeb3f6b34cf8a96426c7f104c5b902/plugins/RazorAux.cc#L127

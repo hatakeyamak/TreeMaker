@@ -142,14 +142,14 @@ JetsForHadTauProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
 
   iEvent.getByLabel(JetTag_,Jets);
   iEvent.getByLabel(reclusJetTag_,reclusJets);
-  if (MCflag_) iEvent.getByLabel("prunedGenParticles",pruned);
   iEvent.getByLabel("slimmedMuons", muon);
   iEvent.getByLabel("slimmedElectrons", electron);
+  if (MCflag_) iEvent.getByLabel("prunedGenParticles",pruned);
 
   // finalJets should be equal to slimmedJets when pt>10. 
   // We just want to add low pT reclustered Jets to it. 
   std::vector<pat::Jet> finalJets = (*Jets); 
-  
+
   if(Jets.isValid() && reclusJets.isValid() )
   {
 
@@ -257,9 +257,9 @@ JetsForHadTauProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSetup
     {
       //if(std::abs(finalJets.at(i).eta())>maxEta_)
       //{
-	//prodJets->push_back(Jet(finalJets.at(i)) );
-	//continue;
-     // }
+      //prodJets->push_back(Jet(finalJets.at(i)) );
+      //continue;
+      // }
       float neufrac=finalJets.at(i).neutralHadronEnergyFraction();//gives raw energy in the denominator
       float phofrac=finalJets.at(i).neutralEmEnergyFraction();//gives raw energy in the denominator
       float chgfrac=finalJets.at(i).chargedHadronEnergyFraction();

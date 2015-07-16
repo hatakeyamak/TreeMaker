@@ -32,7 +32,7 @@ jsonfile=""
         is74X = True
         print "Configuring for 74X"
 
-    if hadtau and geninfo:
+    if hadtau:
         process.load("PhysicsTools.PatAlgos.producersLayer1.patCandidates_cff")   
         process.load("Configuration.EventContent.EventContent_cff")   
         process.load('Configuration.StandardSequences.Geometry_cff')   
@@ -427,16 +427,18 @@ jsonfile=""
     #########
     # had tau
     #########
-    if hadtau and geninfo:
+    if hadtau:
         process.load("RecoJets.JetProducers.ak4PFJets_cfi")
-        process.load("RecoJets.JetProducers.ak4GenJets_cfi")
         from JetMETCorrections.Configuration.JetCorrectionServices_cff import *
 
         #do projections
         process.pfCHS = cms.EDFilter("CandPtrSelector", src = cms.InputTag("packedPFCandidates"), cut = cms.string("fromPV"))
+        process.ak4PFJetsCHS = process.ak4PFJets.clone(src = 'pfCHS', doAreaFastjet = True) # no idea while doArea is false by default, 
+                                                                                            # but it's True in RECO so we have to set it
 
-        process.ak4PFJetsCHS = process.ak4PFJets.clone(src = 'pfCHS', doAreaFastjet = True) # no idea while doArea is false by default, but it's True in RECO so we have to set it
-        process.ak4GenJets = process.ak4GenJets.clone(src = 'packedGenParticles', rParam = 0.4)
+        if geninfo:
+            process.load("RecoJets.JetProducers.ak4GenJets_cfi")
+            process.ak4GenJets = process.ak4GenJets.clone(src = 'packedGenParticles', rParam = 0.4)
 
         from PhysicsTools.PatAlgos.tools.jetTools import addJetCollection
         addJetCollection(
@@ -447,46 +449,54 @@ jsonfile=""
            trackSource = cms.InputTag('unpackedTracksAndVertices'),
            pvSource = cms.InputTag('unpackedTracksAndVertices'),
            svSource = cms.InputTag('unpackedTracksAndVertices','secondary'),
-        #   jetCorrections = ('AK5PFchs', cms.vstring(['L1FastJet', 'L2Relative', 'L3Absolute']), 'Type-2'),
+           #   jetCorrections = ('AK5PFchs', cms.vstring(['L1FastJet', 'L2Relative', 'L3Absolute']), 'Type-2'),
            jetCorrections = ('AK4PFchs', cms.vstring(['L1FastJet', 'L2Relative', 'L3Absolute']), 'Type-2'),
-        #   jetCorrections = ('AK4PFchs', cms.vstring(['L1FastJet', 'L2Relative', 'L3Absolute']), 'None'),
+           #   jetCorrections = ('AK4PFchs', cms.vstring(['L1FastJet', 'L2Relative', 'L3Absolute']), 'None'),
            btagDiscriminators = [ 'combinedInclusiveSecondaryVertexV2BJetTags' ],
            genJetCollection = cms.InputTag('ak4GenJets'),
            algo = 'AK', rParam = 0.4
         )
-
-
-        #adjust MC matching
-        process.patJetGenJetMatchAK4PFCHS.matched = "ak4GenJets"
-        process.patJetPartonMatchAK4PFCHS.matched = "prunedGenParticles"
-        process.patJetPartons.particles = "prunedGenParticles"
-        process.patJetPartons.skipFirstN = cms.uint32(0) # do not skip first 6 particles, we already pruned some!
-        process.patJetPartons.acceptNoDaughters = cms.bool(True) # as we drop intermediate stuff, we need to accept quarks with no siblings
+        process.patJetsAK4PFCHS.getJetMCFlavour = False
+        process.patJetsAK4PFCHS.addGenPartonMatch = False
+        process.patJetsAK4PFCHS.addGenJetMatch = False
 
         #adjust PV used for Jet Corrections
         process.patJetCorrFactorsAK4PFCHS.primaryVertices = "offlineSlimmedPrimaryVertices"
 
         #recreate tracks and pv for btagging
         process.load('PhysicsTools.PatAlgos.slimming.unpackedTracksAndVertices_cfi')
-
         process.options.allowUnscheduled = cms.untracked.bool(True) # in case we forgot something :)
-
 
         from AllHadronicSUSY.Utils.jetsforhadtauproducer_cfi import JetsForHadTauProducer 
         # this save the jets without considering jet Id. But, also saves jetId in a vector.
 
         process.JetsForHadTau = JetsForHadTauProducer.clone(
-        JetTag= cms.InputTag('slimmedJets'),
-        reclusJetTag= cms.InputTag('patJetsAK4PFCHS'),
-        maxJetEta = cms.double(5.0), 
-        maxMuFraction = cms.double(2), 
-        minNConstituents = cms.double(2),       
-        maxNeutralFraction = cms.double(0.90),
-        maxPhotonFraction = cms.double(0.95),
-        minChargedMultiplicity = cms.double(0), 
-        minChargedFraction = cms.double(0),     
-        maxChargedEMFraction = cms.double(0.99), 
+            JetTag= cms.InputTag('slimmedJets'),
+            reclusJetTag= cms.InputTag('patJetsAK4PFCHS'),
+            maxJetEta = cms.double(5.0), 
+            maxMuFraction = cms.double(2), 
+            minNConstituents = cms.double(2),       
+            maxNeutralFraction = cms.double(0.90),
+            maxPhotonFraction = cms.double(0.95),
+            minChargedMultiplicity = cms.double(0), 
+            minChargedFraction = cms.double(0),     
+            maxChargedEMFraction = cms.double(0.99), 
+            MCflag = cms.bool(False)
         )
+
+        #adjust MC matching
+        if geninfo:
+            process.patJetsAK4PFCHS.getJetMCFlavour = True
+            process.patJetsAK4PFCHS.addGenPartonMatch = True
+            process.patJetsAK4PFCHS.addGenJetMatch = True
+            process.patJetGenJetMatchAK4PFCHS.matched = "ak4GenJets"
+            process.patJetPartonMatchAK4PFCHS.matched = "prunedGenParticles"
+            process.patJetPartons.particles = "prunedGenParticles"
+            process.patJetPartons.skipFirstN = cms.uint32(0) # do not skip first 6 particles, we already pruned some!
+            process.patJetPartons.acceptNoDaughters = cms.bool(True) # as we drop intermediate stuff, we need to accept quarks with no siblings
+
+            process.JetsForHadTau.MCflag = True
+ 
     #################
     # end of had tau
     #################
@@ -1094,14 +1104,14 @@ jsonfile=""
    #   RecoCandVector.extend(['selectedIDIsoMuons','selectedIDMuons','selectedIDIsoElectrons','selectedIDElectrons','IsolatedTracks']),
       RecoCandVector.extend(['IsolatedElectronTracksVeto|IsolatedElectronTracksVeto:MT(F_MT)','IsolatedMuonTracksVeto|IsolatedMuonTracksVeto:MT(F_MT)','IsolatedPionTracksVeto|IsolatedPionTracksVeto:MT(F_MT)','LeptonsNew:IdIsoMuon(selectedIDIsoMuons)|LeptonsNew:MuIDIsoMTW(F_MTW)','LeptonsNew:IdMuon(selectedIDMuons)|LeptonsNew:MuIDMTW(F_MTW)','LeptonsNew:IdIsoElectron(selectedIDIsoElectrons)|LeptonsNew:ElecIDIsoMTW(F_MTW)','LeptonsNew:IdElectron(selectedIDElectrons)|LeptonsNew:ElecIDMTW(F_MTW)','SelectedPFCandidates|SelectedPFCandidates:Charge(I_Charge)|SelectedPFCandidates:Typ(I_Typ)']),
       if geninfo :
-          RecoCandVector.extend(['GenLeptons:Boson(GenBoson)|GenLeptons:BosonPDGId(I_GenBosonPDGId)','GenLeptons:Muon(GenMu)|GenLeptons:MuonTauDecay(I_GenMuFromTau)' ,'GenLeptons:Electron(GenElec)|GenLeptons:ElectronTauDecay(I_GenElecFromTau)','GenLeptons:Tau(GenTau)|GenLeptons:TauHadronic(I_GenTauHad)|GenLeptons:TauNu(GenTauNu)'] ) # gen information on leptons
-          RecoCandVector.extend(['GenLeptons:TauDecayCands(TauDecayCands)|GenLeptons:TauDecayCandspdgID(I_pdgID)'])
+          RecoCandVector.extend(['GenLeptons:Boson(GenBoson)|GenLeptons:BosonPDGId(I_GenBosonPDGId)','GenLeptons:Muon(GenMu)|GenLeptons:MuonTauDecay(I_GenMuFromTau)','GenLeptons:Electron(GenElec)|GenLeptons:ElectronTauDecay(I_GenElecFromTau)','GenLeptons:Tau(GenTau)|GenLeptons:TauHadronic(I_GenTauHad)'] ) # gen information on leptons
+          RecoCandVector.extend(['GenLeptons:TauDecayCands(TauDecayCands)|GenLeptons:TauDecayCandspdgID(I_pdgID)|GenLeptons:TauNu(GenTauNu)'])
       RecoCandVector.extend(['LeptonsNewTag:IdIsoMuon(selectedIDIsoMuonsNoMiniIso)','LeptonsNewTag:IdIsoElectron(selectedIDIsoElectronsNoMiniIso)'] ) # gen information on leptons
       RecoCandVector.extend(['JetsProperties(Jets)|JetsProperties:bDiscriminatorUser(F_bDiscriminator)|JetsProperties:chargedEmEnergyFraction(F_chargedEmEnergyFraction)|JetsProperties:chargedHadronEnergyFraction(F_chargedHadronEnergyFraction)|JetsProperties:chargedHadronMultiplicity(I_chargedHadronMultiplicity)|JetsProperties:electronMultiplicity(I_electronMultiplicity)|JetsProperties:jetArea(F_jetArea)|JetsProperties:muonEnergyFraction(F_muonEnergyFraction)|JetsProperties:muonMultiplicity(I_muonMultiplicity)|JetsProperties:neutralEmEnergyFraction(F_neutralEmEnergyFraction)|JetsProperties:neutralHadronMultiplicity(I_neutralHadronMultiplicity)|JetsProperties:photonEnergyFraction(F_photonEnergyFraction)|JetsProperties:photonMultiplicity(I)'] ) # jet information on various variables
       RecoCandVector.extend(['slimmedElectrons','slimmedMuons'])
       RecoCandVector.extend(['SelectedPFElecCandidates','SelectedPFMuCandidates','SelectedPFPionCandidates'])
 
-    if hadtau and geninfo: 
+    if hadtau: 
         process.AdditionalSequence += process.JetsForHadTau
         RecoCandVector.extend(['JetsForHadTau:Jet(slimJet)|JetsForHadTau:JetFlag(I_slimJetID)'])
 
@@ -1256,7 +1266,7 @@ jsonfile=""
 
     ### end Zinv stuff ###
 
-    process.SimpleMemoryCheck = cms.Service("SimpleMemoryCheck",ignoreTotal = cms.untracked.int32(1) )     
+    #process.SimpleMemoryCheck = cms.Service("SimpleMemoryCheck",ignoreTotal = cms.untracked.int32(1) )     
 
     process.WriteTree = cms.Path(
         process.Baseline *
