@@ -438,22 +438,6 @@ jsonfile=""
         from PhysicsTools.PatAlgos.tools.jetTools import addJetCollection
         from PhysicsTools.PatAlgos.tools.jetTools import switchJetCollection
         if is74X:
-#            switchJetCollection(
-#                process,
-#                jetSource = cms.InputTag('ak4PFJetsCHS'),
-#                pfCandidates = cms.InputTag('packedPFCandidates'),
-#                pvSource = cms.InputTag('offlineSlimmedPrimaryVertices'),
-#                svSource = cms.InputTag('slimmedSecondaryVertices'),
-#                muSource = cms.InputTag('slimmedMuons'),
-#                elSource = cms.InputTag('slimmedElectrons'),
-#                jetCorrections = ('AK4PFchs', ['L1FastJet', 'L2Relative', 'L3Absolute'], 'None'),
-#                #   jetCorrections = ('AK4PFchs', cms.vstring(['L1FastJet', 'L2Relative', 'L3Absolute']), 'None'),
-#                btagDiscriminators = [ 'pfCombinedInclusiveSecondaryVertexV2BJetTags' ],
-#                genJetCollection = cms.InputTag('ak4GenJets'),
-#                genParticles = cms.InputTag('prunedGenParticles')
-#                algo = 'AK', rParam = 0.4
-#                )
-#            process.patJetsAK4PFCHS = process.selectedPatJets.clone()
             addJetCollection(
                 process,
                 postfix = "",
@@ -506,8 +490,6 @@ jsonfile=""
         #adjust PV used for Jet Corrections
         process.patJetCorrFactorsAK4PFCHS.primaryVertices = "offlineSlimmedPrimaryVertices"
             
-        #process.Baseline += process.patJetsAK4PFCHS
-
         #recreate tracks and pv for btagging
         process.load('PhysicsTools.PatAlgos.slimming.unpackedTracksAndVertices_cfi')
         process.options.allowUnscheduled = cms.untracked.bool(True) # in case we forgot something :)
@@ -528,12 +510,10 @@ jsonfile=""
             minChargedFraction = cms.double(0),     
             maxChargedEMFraction = cms.double(0.99), 
             MCflag = cms.bool(False),
-            #useReclusteredJets = cms.bool(False)
         )
 
         if geninfo:
             process.JetsForHadTau.MCflag = cms.bool(True)
-            #process.JetsForHadTau.useReclusteredJets = cms.bool(True)
  
     #################
     # end of had tau
