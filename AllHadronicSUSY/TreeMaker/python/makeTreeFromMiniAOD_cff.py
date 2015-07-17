@@ -500,7 +500,6 @@ jsonfile=""
         process.JetsForHadTau = JetsForHadTauProducer.clone(
             JetTag= cms.InputTag('slimmedJets'),
             reclusJetTag= cms.InputTag('patJetsAK4PFCHS'),
-            #reclusJetTag= cms.InputTag('selectedPatJets'),
             maxJetEta = cms.double(5.0), 
             maxMuFraction = cms.double(2), 
             minNConstituents = cms.double(2),       
