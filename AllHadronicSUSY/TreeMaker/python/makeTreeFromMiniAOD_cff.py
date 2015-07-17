@@ -436,7 +436,6 @@ jsonfile=""
 
 
         from PhysicsTools.PatAlgos.tools.jetTools import addJetCollection
-        from PhysicsTools.PatAlgos.tools.jetTools import switchJetCollection
         if is74X:
             addJetCollection(
                 process,
@@ -448,7 +447,7 @@ jsonfile=""
                 svSource = cms.InputTag('slimmedSecondaryVertices'),       # 74x
                 muSource = cms.InputTag('slimmedMuons'),
                 elSource = cms.InputTag('slimmedElectrons'),
-                jetCorrections = ('AK4PFchs', ['L1FastJet', 'L2Relative', 'L3Absolute'], 'None'),
+                jetCorrections = ('AK4PFchs', ['L1FastJet', 'L2Relative', 'L3Absolute'], 'Type-2'),
                 #   jetCorrections = ('AK4PFchs', cms.vstring(['L1FastJet', 'L2Relative', 'L3Absolute']), 'None'),
                 btagDiscriminators = [ 'pfCombinedInclusiveSecondaryVertexV2BJetTags' ],  # 74x
                 genJetCollection = cms.InputTag('ak4GenJets'),
@@ -469,7 +468,7 @@ jsonfile=""
                 #   jetCorrections = ('AK4PFchs', cms.vstring(['L1FastJet', 'L2Relative', 'L3Absolute']), 'None'),
                 btagDiscriminators = [ 'combinedInclusiveSecondaryVertexV2BJetTags' ],  # 72x
                 genJetCollection = cms.InputTag('ak4GenJets'),
-                algo = 'AK', rParam = 0.4,
+                algo = 'AK', rParam = 0.4
                 )
         # end of if is74X:
 
@@ -508,7 +507,7 @@ jsonfile=""
             minChargedMultiplicity = cms.double(0), 
             minChargedFraction = cms.double(0),     
             maxChargedEMFraction = cms.double(0.99), 
-            MCflag = cms.bool(False),
+            MCflag = cms.bool(False)
         )
 
         if geninfo:
