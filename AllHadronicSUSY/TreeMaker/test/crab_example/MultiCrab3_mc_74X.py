@@ -12,7 +12,7 @@
 import copy, os, time
 
 from CRABAPI.RawCommand import crabCommand
-from crab3Config_mc_74X import config as config
+from crab3Config_mc import config as config
 
 workArea = 'CrabSubmit/Spring15MC_v04'
 outDir =  '/store/user/hatake/ntuples/RunIISpring15DR74'
