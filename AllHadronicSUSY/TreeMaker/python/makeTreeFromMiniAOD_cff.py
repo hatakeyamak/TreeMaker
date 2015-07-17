@@ -406,8 +406,8 @@ jsonfile=""
             'HLT_Ele15_IsoVVVL_PFHT350_PFMET70_v',
             'HLT_Mu15_IsoVVVL_PFHT400_PFMET70_v',
             'HLT_Ele15_IsoVVVL_PFHT400_PFMET70_v',
-            'HLT_Photon90_CaloIdL_HT500_v',
-            'HLT_Photon90_CaloIdL_HT600_v',
+            'HLT_Photon90_v',
+            'HLT_Photon90_CaloIdL_PFHT500_v',
             'HLT_DoubleEle8_CaloIdM_Mass8_PFHT300_v',
             'HLT_DoubleMu8_Mass8_PFHT300_v',
             'HLT_Ele27_eta2p1_WPLoose_Gsf_v',
@@ -423,7 +423,7 @@ jsonfile=""
     #########
     if hadtau:
         process.load("RecoJets.JetProducers.ak4PFJets_cfi")
-        from JetMETCorrections.Configuration.JetCorrectionServices_cff import *
+        from JetMETCorrections.Configuration.JetCorrectionServices_cff import ak4PFCHSL1FastL2L3,ak4PFCHSL1Fastjet,ak4PFCHSL2Relative,ak4PFCHSL3Absolute
 
         #do projections
         process.pfCHS = cms.EDFilter("CandPtrSelector", src = cms.InputTag("packedPFCandidates"), cut = cms.string("fromPV"))
@@ -433,7 +433,6 @@ jsonfile=""
         if geninfo:
             process.load("RecoJets.JetProducers.ak4GenJets_cfi")
             process.ak4GenJets = process.ak4GenJets.clone(src = 'packedGenParticles', rParam = 0.4)
-
 
         from PhysicsTools.PatAlgos.tools.jetTools import addJetCollection
         if is74X:
@@ -512,7 +511,7 @@ jsonfile=""
 
         if geninfo:
             process.JetsForHadTau.MCflag = cms.bool(True)
- 
+
     #################
     # end of had tau
     #################
