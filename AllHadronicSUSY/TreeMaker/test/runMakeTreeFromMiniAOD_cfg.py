@@ -22,6 +22,8 @@ numevents=parameters.value("numevents",-1)
 geninfo=parameters.value("geninfo",False)
 tagname=parameters.value("tagname","RECO")
 jsonfile=parameters.value("jsonfile","")
+jecfile=parameters.value("jecfile","")
+residual=parameters.value("residual",False)
 
 print "***** SETUP ************************************"
 print " outfile : "+outFileName
@@ -35,6 +37,7 @@ print " Applying baseline selection filter: "+str(applybaseline)
 print " Including gen-level information: "+str(geninfo)
 print " Instance name of tag information: "+tagname
 if len(jsonfile)>0: print " JSON file applied: "+jsonfile
+if len(jecfile)>0: print " JECs applied: "+jecfile+(" (residuals)" if residual else "")
 print "************************************************"
 
 # The process needs to be defined AFTER reading sys.argv,
@@ -61,6 +64,8 @@ makeTreeFromMiniAOD(process,
   doZinv=doZinv,
   geninfo=geninfo,
   tagname=tagname,
-  jsonfile=jsonfile
+  jsonfile=jsonfile,
+  jecfile=jecfile,
+  residual=residual
 )
 
