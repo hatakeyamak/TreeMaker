@@ -1,4 +1,4 @@
-1;2cfrom WMCore.Configuration import Configuration
+from WMCore.Configuration import Configuration
 config = Configuration()
 
 config.section_("General")
