@@ -10,8 +10,9 @@ dataSetName = parameters.value("dataset","/store/data/Run2015B/DoubleMuon/MINIAO
 #Phys14 MC: use CMSSW_7_2_3_patch1
 #dataSetName = parameters.value("dataset","/store/mc/Phys14DR/DYJetsToLL_M-50_HT-600toInf_Tune4C_13TeV-madgraph-tauola/MINIAODSIM/PU20bx25_PHYS14_25_V1-v1/00000/04860BAA-B673-E411-8B20-002481E0D50C.root")
 
-outFileName=parameters.value("outfile","ReducedSelection")
-global_tag = parameters.value("global_tag","MCRUN2_74_V9::All")
+outFileName=parameters.value("outfile","ReducedSelection_")
+#global_tag = parameters.value("global_tag","MCRUN2_74_V9::All")
+global_tag = parameters.value("global_tag","MCRUN2_74_V9")
 lostlepton= parameters.value("lostlepton", True)
 tagandprobe= parameters.value("tagandprobe", False)
 hadtau= parameters.value("hadtau", True)
@@ -22,6 +23,8 @@ numevents=parameters.value("numevents",-1)
 geninfo=parameters.value("geninfo",True)
 tagname=parameters.value("tagname","PAT")
 jsonfile=parameters.value("jsonfile","")
+jecfile=parameters.value("jecfile","")
+residual=parameters.value("residual",False)
 
 print "***** SETUP ************************************"
 print " outfile : "+outFileName
@@ -35,6 +38,7 @@ print " Applying baseline selection filter: "+str(applybaseline)
 print " Including gen-level information: "+str(geninfo)
 print " Instance name of tag information: "+tagname
 if len(jsonfile)>0: print " JSON file applied: "+jsonfile
+if len(jecfile)>0: print " JECs applied: "+jecfile+(" (residuals)" if residual else "")
 print "************************************************"
 
 # The process needs to be defined AFTER reading sys.argv,
@@ -61,6 +65,8 @@ makeTreeFromMiniAOD(process,
   doZinv=doZinv,
   geninfo=geninfo,
   tagname=tagname,
-  jsonfile=jsonfile
+  jsonfile=jsonfile,
+  jecfile=jecfile,
+  residual=residual
 )
 

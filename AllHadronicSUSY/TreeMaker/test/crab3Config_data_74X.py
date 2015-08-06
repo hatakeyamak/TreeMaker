@@ -2,7 +2,7 @@
 config = Configuration()
 
 config.section_("General")
-config.General.requestName = 'Run2015B_SingleMuon_v10'
+config.General.requestName = 'Run2015B_SingleMuon_v11'
 #config.General.requestName = 'Run2015B_HTMHT_v09'
 #config.General.requestName = 'T1tttt_2J_mGl-1500_mLSP_100_PU20bx25_TrackAdded'
 

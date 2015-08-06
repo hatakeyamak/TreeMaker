@@ -14,12 +14,12 @@ import copy, os, time
 from CRABAPI.RawCommand import crabCommand
 from crab3Config_mc import config as config
 
-workArea = 'CrabSubmit/Spring15MC_v04'
-outDir =  '/store/user/hatake/ntuples/RunIISpring15DR74'
+workArea = 'CrabSubmit/Spring15MC_v05'
+outDir =  '/store/user/hatake/ntuples/RunIISpring15DR74_v1.2'
 #outDir =  '/store/user/benwu/PHYS14/TopTagTest3'
 
 jobslist = {
-#    'Spring15DR74_TTbar'   : ['../runMakeTreeFromMiniAOD_mc_74X_cfg.py', '/TTJets_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v2/MINIAODSIM',         2],
+    'Spring15DR74_TTbar'   : ['../runMakeTreeFromMiniAOD_mc_74X_cfg.py', '/TTJets_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v2/MINIAODSIM',         2],
 #    'Spring15DR74_QCD500'  : ['../runMakeTreeFromMiniAOD_mc_74X_cfg.py', '/QCD_HT-500To1000_13TeV-madgraph/Phys14DR-PU20bx25_PHYS14_25_V1_ext1-v1/MINIAODSIM',                            2],
 #    'Spring15DR74_T2tt425' : ['../runMakeTreeFromMiniAOD_mc_74X_cfg.py', '/SMS-T2tt_2J_mStop-425_mLSP-325_Tune4C_13TeV-madgraph-tauola/Phys14DR-PU40bx25_PHYS14_25_V1-v1/MINIAODSIM',     2],
 #    'Spring15DR74_T2tt500' : ['../runMakeTreeFromMiniAOD_mc_74X_cfg.py', '/SMS-T2tt_2J_mStop-500_mLSP-325_Tune4C_13TeV-madgraph-tauola/Phys14DR-PU40bx25_PHYS14_25_V1-v1/MINIAODSIM',     2],
