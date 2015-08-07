@@ -23,7 +23,7 @@ numevents=parameters.value("numevents",-1)
 geninfo=parameters.value("geninfo",True)
 tagname=parameters.value("tagname","PAT")
 jsonfile=parameters.value("jsonfile","")
-jecfile=parameters.value("jecfile","")
+jecfile=parameters.value("jecfile","Summer15_25nsV2_MC")
 residual=parameters.value("residual",False)
 
 print "***** SETUP ************************************"

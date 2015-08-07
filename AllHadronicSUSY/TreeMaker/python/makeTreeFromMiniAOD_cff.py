@@ -456,6 +456,8 @@ residual=False,
             process.ak4GenJets = process.ak4GenJets.clone(src = 'packedGenParticles', rParam = 0.4)
 
         from PhysicsTools.PatAlgos.tools.jetTools import addJetCollection
+        jetCorrectionLevels = ('AK4PFchs', ['L1FastJet', 'L2Relative', 'L3Absolute'], 'Type-2')
+        if residual: jetCorrectionLevels = ('AK4PFchs', ['L1FastJet', 'L2Relative', 'L3Absolute', 'L2L3Residual'], 'Type-2')
         if is74X:
             addJetCollection(
                 process,
@@ -467,7 +469,7 @@ residual=False,
                 svSource = cms.InputTag('slimmedSecondaryVertices'),       # 74x
                 muSource = cms.InputTag('slimmedMuons'),
                 elSource = cms.InputTag('slimmedElectrons'),
-                jetCorrections = ('AK4PFchs', ['L1FastJet', 'L2Relative', 'L3Absolute'], 'Type-2'),
+                jetCorrections = jetCorrectionLevels, # ('AK4PFchs', ['L1FastJet', 'L2Relative', 'L3Absolute'], 'Type-2'),
                 #   jetCorrections = ('AK4PFchs', cms.vstring(['L1FastJet', 'L2Relative', 'L3Absolute']), 'None'),
                 btagDiscriminators = [ 'pfCombinedInclusiveSecondaryVertexV2BJetTags' ],  # 74x
                 genJetCollection = cms.InputTag('ak4GenJets'),
@@ -532,6 +534,8 @@ residual=False,
 
         if geninfo:
             process.JetsForHadTau.MCflag = cms.bool(True)
+
+        process.JetsForHadTau.debug = cms.bool(True)
 
     #################
     # end of had tau
