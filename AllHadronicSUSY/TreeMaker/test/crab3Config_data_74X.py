@@ -2,8 +2,8 @@ from WMCore.Configuration import Configuration
 config = Configuration()
 
 config.section_("General")
-config.General.requestName = 'Run2015B_SingleMuon_v11'
-#config.General.requestName = 'Run2015B_HTMHT_v09'
+#config.General.requestName = 'Run2015B_SingleMuon_v11'
+config.General.requestName = 'Run2015B_HTMHT_v11'
 #config.General.requestName = 'T1tttt_2J_mGl-1500_mLSP_100_PU20bx25_TrackAdded'
 
 config.section_("JobType")
@@ -13,8 +13,8 @@ config.JobType.psetName = 'runMakeTreeFromMiniAOD_data_74X_cfg.py'
 config.JobType.allowUndistributedCMSSW = False # Parameter JobType.allowNonProductionCMSSW has been renamed to JobType.allowUndistributedCMSSW
 
 config.section_("Data")
-config.Data.inputDataset = '/SingleMuon/Run2015B-PromptReco-v1/MINIAOD'
-#config.Data.inputDataset = '/HTMHT/Run2015B-PromptReco-v1/MINIAOD'
+#config.Data.inputDataset = '/SingleMuon/Run2015B-PromptReco-v1/MINIAOD'
+config.Data.inputDataset = '/HTMHT/Run2015B-PromptReco-v1/MINIAOD'
 #config.Data.inputDataset = '/SMS-T1tttt_2J_mGl-1500_mLSP-100_Tune4C_13TeV-madgraph-tauola/Phys14DR-PU20bx25_tsg_PHYS14_25_V1-v1/MINIAODSIM'
 
 #config.Data.inputDBS = 'https://cmsweb.cern.ch/dbs/prod/global/DBSReader/'  # Parameter Data.dbsUrl has been renamed to Data.inputDBS
