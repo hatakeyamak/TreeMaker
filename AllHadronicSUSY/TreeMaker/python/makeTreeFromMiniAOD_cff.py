@@ -582,8 +582,6 @@ residual=False,
         if geninfo:
             process.JetsForHadTau.MCflag = cms.bool(True)
 
-        process.JetsForHadTau.debug = cms.bool(True)
-
     #################
     # end of had tau
     #################
