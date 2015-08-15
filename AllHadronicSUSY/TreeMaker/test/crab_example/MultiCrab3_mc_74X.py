@@ -14,8 +14,8 @@ import copy, os, time
 from CRABAPI.RawCommand import crabCommand
 from crab3Config_mc import config as config
 
-workArea = 'CrabSubmit/Spring15MC_v1.3'
-outDir =  '/store/user/hatake/ntuples/RunIISpring15DR74_v1.3'
+workArea = 'CrabSubmit/Spring15MC_v1.4g'
+outDir =  '/store/user/hatake/ntuples/RunIISpring15DR74_v1.4g'
 #outDir =  '/store/user/benwu/PHYS14/TopTagTest3'
 
 jobslist = {

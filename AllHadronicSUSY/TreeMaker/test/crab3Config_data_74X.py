@@ -2,20 +2,23 @@ from WMCore.Configuration import Configuration
 config = Configuration()
 
 config.section_("General")
-#config.General.requestName = 'Run2015B_SingleMuon_v11'
-config.General.requestName = 'Run2015B_HTMHT_v11'
-#config.General.requestName = 'T1tttt_2J_mGl-1500_mLSP_100_PU20bx25_TrackAdded'
+#config.General.requestName = 'Run2015B_SingleMuon_PromptReco_v14g'
+#config.General.requestName = 'Run2015B_SingleMuon_17Jul2015_v14g'
+#config.General.requestName = 'Run2015B_HTMHT_PromptReco_v14g'
+config.General.requestName = 'Run2015B_HTMHT_17Jul2015_v14g_v2'
 
 config.section_("JobType")
 config.JobType.pluginName = 'Analysis'
-config.JobType.psetName = 'runMakeTreeFromMiniAOD_data_74X_cfg.py'
+#config.JobType.psetName = 'runMakeTreeFromMiniAOD_data_74X_cfg.py'
+config.JobType.psetName = 'runMakeTreeFromMiniAOD_data_17Jul2015_74X_cfg.py'
 #config.JobType.allowNonProductionCMSSW = False 
 config.JobType.allowUndistributedCMSSW = False # Parameter JobType.allowNonProductionCMSSW has been renamed to JobType.allowUndistributedCMSSW
 
 config.section_("Data")
 #config.Data.inputDataset = '/SingleMuon/Run2015B-PromptReco-v1/MINIAOD'
-config.Data.inputDataset = '/HTMHT/Run2015B-PromptReco-v1/MINIAOD'
-#config.Data.inputDataset = '/SMS-T1tttt_2J_mGl-1500_mLSP-100_Tune4C_13TeV-madgraph-tauola/Phys14DR-PU20bx25_tsg_PHYS14_25_V1-v1/MINIAODSIM'
+#config.Data.inputDataset = '/SingleMuon/Run2015B-17Jul2015-v1/MINIAOD'
+#config.Data.inputDataset = '/HTMHT/Run2015B-PromptReco-v1/MINIAOD'
+config.Data.inputDataset = '/HTMHT/Run2015B-17Jul2015-v1/MINIAOD'
 
 #config.Data.inputDBS = 'https://cmsweb.cern.ch/dbs/prod/global/DBSReader/'  # Parameter Data.dbsUrl has been renamed to Data.inputDBS
 #config.Data.dbsUrl = 'https://cmsweb.cern.ch/dbs/prod/global/DBSReader/'
@@ -31,9 +34,9 @@ config.Data.unitsPerJob = 50
 #config.Data.runRange = '251244-251721'
 #config.Data.lumiMask = './json_DCSONLY_Run2015B_ammended_720.txt'
 #config.Data.runRange = '251244-251883'
-#config.Data.lumiMask = './Cert_246908-251883_13TeV_PromptReco_Collisions15_JSON.txt'
 config.Data.lumiMask = './Cert_246908-251883_13TeV_PromptReco_Collisions15_JSON_v2.txt'
-config.Data.runRange = '246908-251883'
+config.Data.runRange = '246908-251562'
+#config.Data.runRange = '251563-251883'
 #config.Data.publication = False
 #config.Data.publishDBS = 'https://cmsweb.cern.ch/dbs/prod/phys03/DBSWriter/' # Parameter Data.publishDbsUrl has been renamed to Data.publishDBS
 #config.Data.publishDataName = 'Run2015B_HTMHT_DCSjson_v03'

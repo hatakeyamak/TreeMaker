@@ -25,6 +25,7 @@ tagname=parameters.value("tagname","PAT")
 jsonfile=parameters.value("jsonfile","")
 jecfile=parameters.value("jecfile","Summer15_25nsV2_MC")
 residual=parameters.value("residual",False)
+era=parameters.value("era","Run2_25ns")
 
 print "***** SETUP ************************************"
 print " outfile : "+outFileName
@@ -39,12 +40,18 @@ print " Including gen-level information: "+str(geninfo)
 print " Instance name of tag information: "+tagname
 if len(jsonfile)>0: print " JSON file applied: "+jsonfile
 if len(jecfile)>0: print " JECs applied: "+jecfile+(" (residuals)" if residual else "")
+print " era of this dataset: "+era
 print "************************************************"
 
 # The process needs to be defined AFTER reading sys.argv,
 # otherwise edmConfigHash fails
 import FWCore.ParameterSet.Config as cms
+from Configuration.StandardSequences.Eras import eras
 process = cms.Process("RA2EventSelection")
+if era=="Run2_25ns":
+    process = cms.Process("RA2EventSelection",eras.Run2_25ns)
+elif era=="Run2_50ns":
+    process = cms.Process("RA2EventSelection",eras.Run2_50ns)
 
 ## configure geometry & conditions
 process.load("Configuration.StandardSequences.GeometryRecoDB_cff")
